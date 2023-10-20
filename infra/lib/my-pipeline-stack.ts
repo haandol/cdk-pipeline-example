@@ -1,5 +1,6 @@
 import * as cdk from 'aws-cdk-lib';
 import { Construct } from 'constructs';
+import * as codecommit from 'aws-cdk-lib/aws-codecommit';
 import {
   CodePipeline,
   CodePipelineSource,
@@ -11,13 +12,16 @@ export class MyPipelineStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, props);
 
+    const repository = codecommit.Repository.fromRepositoryName(
+      this,
+      'Repository',
+      'cdk-pipeline-example'
+    );
+
     const pipeline = new CodePipeline(this, 'Pipeline', {
       pipelineName: 'MyPipeline',
       synth: new ShellStep('Synth', {
-        input: CodePipelineSource.gitHub(
-          'haandol/cdk-pipeline-example',
-          'main'
-        ),
+        input: CodePipelineSource.codeCommit(repository, 'main'),
         commands: ['npm ci', 'npm run build', 'npx cdk synth'],
       }),
     });
