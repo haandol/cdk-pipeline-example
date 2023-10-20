@@ -32,6 +32,6 @@ export class MyPipelineStack extends cdk.Stack {
       }),
     });
 
-    pipeline.addStage(new MyPipelineAppStage(this, 'test'));
+    pipeline.addStage(new MyPipelineAppStage(this, 'dev'));
   }
 }
