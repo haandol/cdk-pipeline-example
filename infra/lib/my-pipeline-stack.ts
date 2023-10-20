@@ -22,7 +22,12 @@ export class MyPipelineStack extends cdk.Stack {
       pipelineName: 'MyPipeline',
       synth: new ShellStep('Synth', {
         input: CodePipelineSource.codeCommit(repository, 'main'),
-        commands: ['cd infra', 'npm ci', 'npm run build', 'npx cdk synth'],
+        commands: [
+          'cd infra',
+          'npm clean-install',
+          'npm run build',
+          'npx cdk synth',
+        ],
       }),
     });
 
